@@ -545,7 +545,7 @@ dependencies = [
  "async-std",
  "base64 0.13.0",
  "pdf",
- "pdf_derive 0.1.20 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pdf_derive",
  "surf",
 ]
 
@@ -1112,7 +1112,7 @@ dependencies = [
 [[package]]
 name = "pdf"
 version = "0.7.0"
-source = "git+https://github.com/divergentdave/pdf?branch=passwords#ee5450a9fc7412fe1d8d5dcab7be14c68fe11d17"
+source = "git+https://github.com/pdf-rs/pdf?rev=8beb8c2267842ee310099a56edfaa41195dc4f6f#8beb8c2267842ee310099a56edfaa41195dc4f6f"
 dependencies = [
  "aes",
  "block-modes",
@@ -1128,7 +1128,7 @@ dependencies = [
  "num-traits 0.1.43",
  "once_cell 0.2.4",
  "ordermap",
- "pdf_derive 0.1.20 (git+https://github.com/divergentdave/pdf?branch=passwords)",
+ "pdf_derive",
  "sha2",
  "snafu",
  "stringprep",
@@ -1137,17 +1137,7 @@ dependencies = [
 [[package]]
 name = "pdf_derive"
 version = "0.1.20"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4754e0a920700137601acfb4b5f9b58621418b1717049e8707d111d761426c1a"
-dependencies = [
- "quote 1.0.7",
- "syn 1.0.48",
-]
-
-[[package]]
-name = "pdf_derive"
-version = "0.1.20"
-source = "git+https://github.com/divergentdave/pdf?branch=passwords#ee5450a9fc7412fe1d8d5dcab7be14c68fe11d17"
+source = "git+https://github.com/pdf-rs/pdf?rev=8beb8c2267842ee310099a56edfaa41195dc4f6f#8beb8c2267842ee310099a56edfaa41195dc4f6f"
 dependencies = [
  "quote 1.0.7",
  "syn 1.0.48",

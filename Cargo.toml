@@ -7,6 +7,6 @@ edition = "2018"
 [dependencies]
 async-std = "1.7.0"
 base64 = "0.13.0"
-pdf = { git = "https://github.com/divergentdave/pdf", branch = "passwords" }
-pdf_derive = "0.1.20"
+pdf = { git = "https://github.com/pdf-rs/pdf", rev = "8beb8c2267842ee310099a56edfaa41195dc4f6f" }
+pdf_derive = { git = "https://github.com/pdf-rs/pdf", rev = "8beb8c2267842ee310099a56edfaa41195dc4f6f" }
 surf = "2.1.0"
