@@ -8,7 +8,7 @@ use pdf::{
 use pdf_derive::Object;
 use std::{
     convert::TryInto,
-    fs::OpenOptions,
+    fs::{self, OpenOptions},
     io::{self, Read, Write},
     path::PathBuf,
     rc::Rc,
@@ -19,6 +19,7 @@ const URL: &'static str =
     "http://cdn01.foxitsoftware.com/pub/foxit/addonservice/certs/phantom/cer.pdf";
 const FILENAME: &'static str = "cer.pdf";
 const PASSWORD: &'static [u8] = b"phantomkey";
+const OUTPUT_DIRECTORY: &'static str = "certificates";
 
 #[derive(Debug, Object)]
 struct Trailer {
@@ -162,6 +163,13 @@ fn main() {
     let trailer = Trailer::from_primitive(Primitive::Dictionary(trailer), &storage)
         .expect("error loading PDF objects");
 
+    let directory = PathBuf::from(OUTPUT_DIRECTORY);
+    if directory.is_dir() {
+        fs::remove_dir_all(&directory).expect("couldn't clear output directory");
+    }
+    fs::create_dir(&directory).expect("couldn't create output directory");
+
+    let mut counter = 1;
     let mut visitor = CertificatePageVisitor::new(|cert_data| {
         println!("{:#?}", cert_data);
         let stream_data = cert_data.data().expect("error reading stream data");
@@ -175,6 +183,17 @@ fn main() {
 
         // always the length of the DER-encoded certificate
         let _header_dword_3 = u32::from_le_bytes(header_data[8..12].try_into().unwrap());
+
+        {
+            let mut certificate_file = OpenOptions::new()
+                .create_new(true)
+                .write(true)
+                .open(directory.join(format!("{}.crt", counter)))
+                .expect("couldn't create certificate output file");
+            counter += 1;
+            certificate_file.write_all(der_data).expect("couldn't write to certificate output file");
+            certificate_file.flush().expect("couldn't finish writing to certificate output file");
+        }
 
         let encoded = base64::encode(der_data);
         println!("-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----", encoded);
