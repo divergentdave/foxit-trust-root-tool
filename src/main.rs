@@ -136,27 +136,28 @@ impl<F: FnMut(&Stream<CertData>)> PageVisitor for CertificatePageVisitor<F> {
 fn main() {
     let path = PathBuf::from(FILENAME);
 
-    if !path.exists() {
-        let data = block_on(async {
-            let mut result = surf::get(URL).await?;
-            result.body_bytes().await
-        })
-        .expect("error downloading file");
+    let data = block_on(async {
+        let mut result = surf::get(URL).await?;
+        result.body_bytes().await
+    })
+    .expect("error downloading file");
+    {
         let mut file = OpenOptions::new()
             .write(true)
             .create(true)
             .open(&path)
             .expect("couldn't create file");
-        file.write_all(&data).expect("couldn't write to file");
+        file.write_all(&data).expect("couldn't write to PDF file");
+        file.flush().expect("couldn't finish writing to PDF file");
     }
 
     let mut data = vec![];
     OpenOptions::new()
         .read(true)
         .open(&path)
-        .expect("couldn't open file")
+        .expect("couldn't open PDF file")
         .read_to_end(&mut data)
-        .expect("error reading file");
+        .expect("error reading PDF file");
 
     let (storage, trailer) = pdf::file::load_storage_and_trailer_password(data, PASSWORD)
         .expect("error loading PDF file");
