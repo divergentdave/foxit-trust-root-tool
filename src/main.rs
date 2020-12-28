@@ -171,7 +171,6 @@ fn main() {
 
     let mut counter = 1;
     let mut visitor = CertificatePageVisitor::new(|cert_data| {
-        println!("{:#?}", cert_data);
         let stream_data = cert_data.data().expect("error reading stream data");
         let (header_data, der_data) = stream_data.split_at(12);
 
@@ -183,6 +182,14 @@ fn main() {
 
         // always the length of the DER-encoded certificate
         let _header_dword_3 = u32::from_le_bytes(header_data[8..12].try_into().unwrap());
+
+        if let Ok(parsed) = openssl::x509::X509::from_der(der_data) {
+            println!("{:?}", parsed.subject_name());
+        } else {
+            println!("Unparseable certificate");
+        }
+
+        println!("{:#?}", cert_data);
 
         {
             let mut certificate_file = OpenOptions::new()
@@ -197,6 +204,7 @@ fn main() {
 
         let encoded = base64::encode(der_data);
         println!("-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----", encoded);
+        println!("");
     });
     visitor
         .walk_pages(&trailer.root.pages, &storage)
