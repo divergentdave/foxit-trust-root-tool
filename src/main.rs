@@ -15,11 +15,11 @@ use std::{
 };
 
 // "Foxit Approved Trust List"
-const URL: &'static str =
+const URL: &str =
     "http://cdn01.foxitsoftware.com/pub/foxit/addonservice/certs/phantom/cer.pdf";
-const FILENAME: &'static str = "cer.pdf";
-const PASSWORD: &'static [u8] = b"phantomkey";
-const OUTPUT_DIRECTORY: &'static str = "certificates";
+const FILENAME: &str = "cer.pdf";
+const PASSWORD: &[u8] = b"phantomkey";
+const OUTPUT_DIRECTORY: &str = "certificates";
 
 #[derive(Debug, Object)]
 struct Trailer {
@@ -212,7 +212,7 @@ fn main() {
             "-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----",
             encoded
         );
-        println!("");
+        println!();
     });
     visitor
         .walk_pages(&trailer.root.pages, &storage)
