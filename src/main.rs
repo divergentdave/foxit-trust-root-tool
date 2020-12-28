@@ -199,12 +199,19 @@ fn main() {
                 .open(directory.join(format!("{}.crt", counter)))
                 .expect("couldn't create certificate output file");
             counter += 1;
-            certificate_file.write_all(der_data).expect("couldn't write to certificate output file");
-            certificate_file.flush().expect("couldn't finish writing to certificate output file");
+            certificate_file
+                .write_all(der_data)
+                .expect("couldn't write to certificate output file");
+            certificate_file
+                .flush()
+                .expect("couldn't finish writing to certificate output file");
         }
 
         let encoded = base64::encode(der_data);
-        println!("-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----", encoded);
+        println!(
+            "-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----",
+            encoded
+        );
         println!("");
     });
     visitor
