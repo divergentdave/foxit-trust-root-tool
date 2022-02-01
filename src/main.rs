@@ -15,9 +15,8 @@ use std::{
 };
 
 // "Foxit Approved Trust List"
-const URL: &str =
-    "http://cdn01.foxitsoftware.com/pub/foxit/addonservice/certs/phantom/cer.pdf";
-const FILENAME: &str = "cer.pdf";
+const URL: &str = "http://cdn01.foxitsoftware.com/pub/foxit/addonservice/certs/phantom/fatl.pdf";
+const FILENAME: &str = "fatl.pdf";
 const PASSWORD: &[u8] = b"phantomkey";
 const OUTPUT_DIRECTORY: &str = "certificates";
 
